@@ -1,4 +1,4 @@
-import { Category, Product, DeliveryZone, RestaurantSettings, PromotionalCode, DailyMenu, Order } from '../types';
+import { Category, Product, DeliveryZone, RestaurantSettings, PromotionalCode, DailyMenu, Order, Testimonial } from '../types';
 
 export const INITIAL_SETTINGS: RestaurantSettings = {
   id: 'a0000000-0000-0000-0000-000000000001',
@@ -6,7 +6,7 @@ export const INITIAL_SETTINGS: RestaurantSettings = {
   tagline: 'Taste More. Relax Better.',
   phone: '+234 814 555 0192',
   whatsappNumber: '+2348145550192',
-  address: 'Plot 14B Admiralty Way, Lekki Phase 1, Lagos, Nigeria',
+  address: 'Plot 1047 Aminu Kano Crescent, Wuse 2, Abuja, FCT, Nigeria',
   email: 'orders@derabuzorlounge.com',
   isAcceptingOrders: true,
   isDeliveryEnabled: true,
@@ -47,7 +47,7 @@ export const INITIAL_CATEGORIES: Category[] = [
     id: 'cat-plan',
     name: 'Weekly Meal Plan',
     slug: 'meal-plan',
-    description: 'Automated Monday-to-Friday delicious lunch delivery subscription for busy Lagosians',
+    description: 'Automated Monday-to-Friday delicious lunch delivery subscription for busy Abuja professionals',
     displayOrder: 4,
     isActive: true,
   },
@@ -115,7 +115,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     isActive: true,
     variants: [
       { id: 'v-sp1', productId: 'prod-meal-spag', name: 'Medium Spice', priceModifier: 0, isDefault: true, isActive: true },
-      { id: 'v-sp2', productId: 'prod-meal-spag', name: 'Extra Fiery Lagos Hot', priceModifier: 0, isDefault: false, isActive: true },
+      { id: 'v-sp2', productId: 'prod-meal-spag', name: 'Extra Fiery Abuja Pepper Hot', priceModifier: 0, isDefault: false, isActive: true },
     ],
     addons: [
       { id: 'a-sp1', productId: 'prod-meal-spag', name: 'Extra Boiled / Fried Egg', price: 300, maxQuantity: 2, isActive: true },
@@ -432,13 +432,13 @@ export const INITIAL_PRODUCTS: Product[] = [
 ];
 
 export const INITIAL_DELIVERY_ZONES: DeliveryZone[] = [
-  { id: 'b1', name: 'Lekki Phase 1 (Core)', fee: 1500, estimatedMinutes: 30, isActive: true, displayOrder: 1 },
-  { id: 'b2', name: 'Ikoyi & Banana Island', fee: 2500, estimatedMinutes: 40, isActive: true, displayOrder: 2 },
-  { id: 'b3', name: 'Victoria Island & Oniru', fee: 2200, estimatedMinutes: 35, isActive: true, displayOrder: 3 },
-  { id: 'b4', name: 'Lekki Phase 2, Agungi & Osapa', fee: 2500, estimatedMinutes: 45, isActive: true, displayOrder: 4 },
-  { id: 'b5', name: 'Chevron, Orchid & Ikate', fee: 3000, estimatedMinutes: 50, isActive: true, displayOrder: 5 },
-  { id: 'b6', name: 'Ikeja GRA & Maryland', fee: 4500, estimatedMinutes: 70, isActive: true, displayOrder: 6 },
-  { id: 'b7', name: 'Surulere & Yaba', fee: 4000, estimatedMinutes: 60, isActive: true, displayOrder: 7 },
+  { id: 'b1', name: 'Wuse 2 & Maitama (Core)', fee: 1500, estimatedMinutes: 30, isActive: true, displayOrder: 1 },
+  { id: 'b2', name: 'Garki & Central Business District (CBD)', fee: 2000, estimatedMinutes: 35, isActive: true, displayOrder: 2 },
+  { id: 'b3', name: 'Asokoro & Guzape', fee: 2500, estimatedMinutes: 40, isActive: true, displayOrder: 3 },
+  { id: 'b4', name: 'Jabi & Utako', fee: 2200, estimatedMinutes: 35, isActive: true, displayOrder: 4 },
+  { id: 'b5', name: 'Gwarinpa & Mabushi', fee: 3000, estimatedMinutes: 45, isActive: true, displayOrder: 5 },
+  { id: 'b6', name: 'Life Camp & Kado', fee: 3000, estimatedMinutes: 45, isActive: true, displayOrder: 6 },
+  { id: 'b7', name: 'Apo, Lokogoma & Gudu', fee: 3500, estimatedMinutes: 55, isActive: true, displayOrder: 7 },
 ];
 
 export const INITIAL_PROMOTIONS: PromotionalCode[] = [
@@ -494,9 +494,9 @@ export const SAMPLE_ORDERS: Order[] = [
     customerPhone: '+2348031234567',
     customerEmail: 'chidera.nwosu@example.com',
     fulfilmentType: 'delivery',
-    deliveryAddress: '32 Admiralty Way, Lekki Phase 1, Lagos',
+    deliveryAddress: 'Plot 18, Adetokunbo Ademola Crescent, Wuse 2, Abuja',
     deliveryZoneId: 'b1',
-    deliveryZoneName: 'Lekki Phase 1 (Core)',
+    deliveryZoneName: 'Wuse 2 & Maitama (Core)',
     deliveryInstructions: 'Call at security gate for badge pass',
     subtotal: 7500,
     deliveryFee: 1500,
@@ -579,6 +579,7 @@ export const SAMPLE_ORDERS: Order[] = [
     paymentStatus: 'pending',
     orderStatus: 'confirmed',
     customerNotes: 'Picking up around 1:00 PM',
+    scheduledFor: '2026-11-10 13:00 (WAT)',
     createdAt: new Date(Date.now() - 40 * 60 * 1000).toISOString(),
     updatedAt: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
     items: [
@@ -615,4 +616,67 @@ export const SAMPLE_ORDERS: Order[] = [
       }
     ]
   }
+];
+
+export const INITIAL_TESTIMONIALS: Testimonial[] = [
+  {
+    id: 't-1',
+    name: 'Barrister Chuka Okafor',
+    roleOrLocation: 'Maitama, Abuja',
+    rating: 5,
+    comment: 'The firewood aroma in their Smokey Jollof is 100% genuine party jollof flavor. Delivered piping hot to our legal chambers in Maitama within 32 minutes. The sweet dodo and fried chicken were seasoned to perfection.',
+    favoriteItem: 'Smokey Jollof + Plantain + Chicken',
+    verified: true,
+    date: 'Yesterday',
+  },
+  {
+    id: 't-2',
+    name: 'Amina Bello-Garba',
+    roleOrLocation: 'Wuse 2, Abuja',
+    rating: 5,
+    comment: 'Subscribed to their 5-Day Weekly Lunch plan for our tech team on Aminu Kano Crescent. Outstanding variety every day—from native rice and honey beans to the egg sauce and yam. Zero lunch stress forever!',
+    favoriteItem: '5-Day Lunch Subscription Plan',
+    verified: true,
+    date: '3 days ago',
+  },
+  {
+    id: 't-3',
+    name: 'Dr. Emeka & Ngozi Eze',
+    roleOrLocation: 'Asokoro, Abuja',
+    rating: 5,
+    comment: 'The Mega Restock Sovereign Basket was an absolute lifesaver. Clean unpolished rice, pristine beans with no stones or weevils, fresh crate of eggs, and pure groundnut oil right at our gate in Asokoro. Remarkable service.',
+    favoriteItem: 'Mega Restock Sovereign Basket',
+    verified: true,
+    date: 'Last week',
+  },
+  {
+    id: 't-4',
+    name: 'Hauwa Mohammed',
+    roleOrLocation: 'Central Business District (CBD), Abuja',
+    rating: 5,
+    comment: 'Their Egusi Soup with Catfish and Pounded Yam tastes just like authentic home cooking. The stockfish and smoked fish broth is thick and rich. Highly recommended for corporate lunch orders in CBD.',
+    favoriteItem: 'Rich Egusi Soup with Catfish',
+    verified: true,
+    date: '4 days ago',
+  },
+  {
+    id: 't-5',
+    name: 'Tunde Bakare',
+    roleOrLocation: 'Jabi Lake, Abuja',
+    rating: 5,
+    comment: 'Ordered via the WhatsApp floating assistant and tracked the dispatch rider directly from the kitchen to Jabi. The beef was succulent, the zobo chiller was ice-cold, and the packaging is top-tier spill-proof.',
+    favoriteItem: 'Fried Rice + Zobo Chiller',
+    verified: true,
+    date: '5 days ago',
+  },
+  {
+    id: 't-6',
+    name: 'Fatima Al-Hassan',
+    roleOrLocation: 'Gwarinpa Estate, Abuja',
+    rating: 5,
+    comment: 'Finding authentic firewood flavor in Abuja used to be difficult until Dera Buzor Lounge opened. Clean food, rapid dispatch to 3rd Avenue Gwarinpa, and incredibly polite customer care.',
+    favoriteItem: 'Stir Fried Spaghetti + Chicken',
+    verified: true,
+    date: '1 week ago',
+  },
 ];

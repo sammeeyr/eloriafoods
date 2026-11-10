@@ -13,10 +13,12 @@ import { CheckoutModal } from './components/CheckoutModal';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 import { OrderTrackerModal } from './components/OrderTrackerModal';
 import { StorySection } from './components/StorySection';
+import { CustomerTestimonials } from './components/CustomerTestimonials';
 import { Footer } from './components/Footer';
 import { AdminDashboard } from './components/AdminDashboard';
 import { PaymentSandboxModal } from './components/PaymentSandboxModal';
 import { FloatingCartBar } from './components/FloatingCartBar';
+import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { Product, DailyMenuItem, Order } from './types';
 import { saveRecentOrder } from './services/recentOrders';
 
@@ -121,6 +123,9 @@ const MainApp: React.FC = () => {
         {/* 5-Day Weekly Lunch Subscription Plan */}
         <MealPlanSection />
 
+        {/* Real Customer Reviews & Social Proof Carousel */}
+        <CustomerTestimonials />
+
         {/* Lounge Experience & Firewood Heritage Story */}
         <StorySection />
       </main>
@@ -133,6 +138,9 @@ const MainApp: React.FC = () => {
 
       {/* Persistent Bottom Floating Cart Bar for Mobile */}
       <FloatingCartBar />
+
+      {/* Floating WhatsApp Quick Order Overlay */}
+      <WhatsAppFloatingButton />
 
       {/* Product Customization Modal */}
       <ProductModal

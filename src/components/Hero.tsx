@@ -56,12 +56,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMenu, onExploreBaskets, onO
           <div className="flex items-center gap-2 font-mono">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#EFE4BF] text-[#07552B] font-semibold shadow-xs">
               <span className="w-2 h-2 rounded-full bg-[#58A846] animate-pulse" />
-              Lagos Time: {lagosTime || '12:30 PM'} · Kitchen Active
+              Abuja Time: {lagosTime || '12:30 PM'} · Kitchen Active
             </span>
           </div>
           <div className="flex items-center gap-2 text-[#536353] font-medium">
             <Truck className="w-3.5 h-3.5 text-[#07552B]" />
-            <span>Fast delivery in Lekki, Ikoyi, VI & across Lagos</span>
+            <span>Fast delivery in Wuse 2, Maitama, Garki & across Abuja</span>
           </div>
         </div>
 

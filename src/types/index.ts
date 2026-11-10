@@ -186,6 +186,7 @@ export interface Order {
   paymentStatus: PaymentStatus;
   orderStatus: OrderStatus;
   customerNotes?: string;
+  scheduledFor?: string;
   idempotencyKey?: string;
   createdAt: string;
   updatedAt: string;
@@ -226,6 +227,7 @@ export interface CheckoutPayload {
   deliveryZoneId?: string;
   deliveryInstructions?: string;
   pickupTime?: string;
+  scheduledFor?: string;
   paymentMethod: PaymentMethod;
   customerNotes?: string;
   promoCode?: string;
@@ -244,9 +246,21 @@ export interface RecentOrderSummary {
   orderNumber: string;
   customerName?: string;
   createdAt: string;
+  scheduledFor?: string;
   totalAmount: number;
   fulfilmentType: FulfilmentType;
   itemsSummary: string;
   orderStatus: OrderStatus;
   paymentStatus: PaymentStatus;
+}
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  roleOrLocation: string;
+  rating: number;
+  comment: string;
+  favoriteItem: string;
+  verified: boolean;
+  date: string;
 }

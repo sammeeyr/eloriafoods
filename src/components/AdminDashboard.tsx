@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  X, ShieldCheck, RefreshCw, Check, Truck, Store
+  X, ShieldCheck, RefreshCw, Check, Truck, Store, Calendar, Clock
 } from 'lucide-react';
 import { Order, DailyMenu, RestaurantSettings, OrderStatus } from '../types';
 import { 
@@ -167,7 +167,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose 
                 Restaurant Administration & Kitchen Hub
               </h2>
               <span className="text-[11px] text-[#536353] font-mono">
-                Lagos Timezone (WAT) · Dera Buzor Lounge Operations
+                West Africa Time (WAT) · Dera Buzor Lounge Abuja Operations
               </span>
             </div>
           </div>
@@ -361,8 +361,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose 
                               </div>
                               {order.deliveryAddress && (
                                 <p className="text-[11px] text-[#536353] leading-tight">
-                                  {order.deliveryAddress}
+                                   {order.deliveryAddress}
                                 </p>
+                              )}
+                              {order.scheduledFor ? (
+                                <div className="flex items-center gap-1.5 text-[11px] text-[#07552B] bg-[#FFF6D9] border border-[#EFE4BF] px-2.5 py-1 rounded-lg font-mono font-bold mt-1">
+                                  <Calendar className="w-3.5 h-3.5 text-[#F28C00] shrink-0" />
+                                  <span>Sched: {order.scheduledFor}</span>
+                                </div>
+                              ) : (
+                                <span className="text-[10px] text-[#8A908A] font-mono block mt-0.5">Immediate (ASAP)</span>
                               )}
                               <p className="font-mono font-black text-sm text-[#07552B] pt-1">
                                 Total: ₦{order.totalAmount.toLocaleString()}
@@ -434,7 +442,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose 
                     <div>
                       <h4 className="font-display font-extrabold text-base text-[#07552B]">Daily Menu Status</h4>
                       <p className="text-xs text-[#536353]">
-                        Active Lagos Date: {dailyMenu?.menuDate} · Status: <span className="text-[#58A846] font-bold uppercase">{dailyMenu?.status}</span>
+                        Active Business Date: {dailyMenu?.menuDate} · Status: <span className="text-[#58A846] font-bold uppercase">{dailyMenu?.status}</span>
                       </p>
                     </div>
                     <button
@@ -566,7 +574,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ isOpen, onClose 
 
                     <div className="flex items-center justify-between pt-3 border-t border-[#F4EAC4]">
                       <div>
-                        <span className="text-xs font-bold text-[#202820] block">Lagos Delivery Fulfilment</span>
+                        <span className="text-xs font-bold text-[#202820] block">Abuja Delivery Fulfilment</span>
                         <span className="text-[11px] text-[#536353]">Toggle rider delivery service</span>
                       </div>
                       <button

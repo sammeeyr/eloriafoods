@@ -21,7 +21,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenTrackOrder })
               />
             </a>
             <p className="text-xs text-[#D6E8CF] leading-relaxed">
-              Taste More. Relax Better. Authentic Nigerian culinary excellence, curated daily menus, foodstuff market baskets, and relaxed lounge comfort in Lagos.
+              Taste More. Relax Better. Authentic Nigerian culinary excellence, curated daily menus, foodstuff market baskets, and relaxed lounge comfort in Abuja.
             </p>
             <div className="pt-2">
               <button
@@ -61,6 +61,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenTrackOrder })
                 </a>
               </li>
               <li>
+                <a href="#testimonials" className="hover:text-[#F28C00] transition-colors">
+                  Customer Reviews & Praise
+                </a>
+              </li>
+              <li>
                 <button onClick={onOpenTrackOrder} className="hover:text-[#F28C00] transition-colors text-left">
                   Track Your Order
                 </button>
@@ -90,12 +95,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenTrackOrder })
           {/* Location & Contact */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#BFE3B8] font-mono">
-              Lekki Lounge & Dispatch
+              Wuse 2 Lounge & Dispatch
             </h4>
             <div className="space-y-2.5 text-xs text-[#E2EEDD]">
               <div className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 text-[#F28C00] shrink-0 mt-0.5" />
-                <span>Plot 14B Admiralty Way, Lekki Phase 1, Lagos, Nigeria</span>
+                <span>Plot 1047 Aminu Kano Crescent, Wuse 2, Abuja, FCT, Nigeria</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#58A846] shrink-0" />

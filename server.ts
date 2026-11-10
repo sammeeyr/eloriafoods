@@ -9,10 +9,11 @@ import {
   INITIAL_DELIVERY_ZONES, 
   INITIAL_PROMOTIONS, 
   SAMPLE_ORDERS,
+  INITIAL_TESTIMONIALS,
   generateInitialDailyMenu, 
   getLagosDateString 
 } from './src/data/mockData';
-import { Order, DailyMenu, RestaurantSettings, DeliveryZone, PromotionalCode } from './src/types';
+import { Order, DailyMenu, RestaurantSettings, DeliveryZone, PromotionalCode, Testimonial } from './src/types';
 
 dotenv.config();
 
@@ -46,6 +47,7 @@ let orders: Map<string, Order> = new Map();
 SAMPLE_ORDERS.forEach(ord => orders.set(ord.orderNumber, ord));
 
 let paymentEvents: Set<string> = new Set();
+let testimonials: Testimonial[] = [...INITIAL_TESTIMONIALS];
 
 // Timezone helper: resolves current Africa/Lagos date
 function getLagosCurrentDate(): string {
@@ -116,6 +118,31 @@ app.get('/api/delivery-zones', (_req: Request, res: Response) => {
 
 app.get('/api/categories', (_req: Request, res: Response) => {
   res.json(INITIAL_CATEGORIES);
+});
+
+app.get('/api/testimonials', (_req: Request, res: Response) => {
+  res.json(testimonials);
+});
+
+app.post('/api/testimonials', (req: Request, res: Response) => {
+  const { name, roleOrLocation, rating, comment, favoriteItem } = req.body;
+  if (!name || !comment) {
+    return res.status(400).json({ error: 'Name and review comment are required.' });
+  }
+
+  const newTestimonial: Testimonial = {
+    id: `t-${Date.now()}`,
+    name: String(name).trim(),
+    roleOrLocation: String(roleOrLocation || 'Abuja, Nigeria').trim(),
+    rating: Math.min(5, Math.max(1, Number(rating) || 5)),
+    comment: String(comment).trim(),
+    favoriteItem: String(favoriteItem || 'Today’s Special').trim(),
+    verified: true,
+    date: 'Just now',
+  };
+
+  testimonials.unshift(newTestimonial);
+  res.status(201).json(newTestimonial);
 });
 
 // -----------------------------------------------------------------------------
@@ -215,6 +242,7 @@ app.post('/api/checkout', (req: Request, res: Response) => {
       deliveryZoneId,
       deliveryInstructions,
       pickupTime,
+      scheduledFor,
       paymentMethod,
       customerNotes,
       promoCode,
@@ -393,6 +421,7 @@ app.post('/api/checkout', (req: Request, res: Response) => {
       paymentStatus: 'pending',
       orderStatus: 'pending',
       customerNotes: customerNotes || (pickupTime ? `Pickup time requested: ${pickupTime}` : undefined),
+      scheduledFor: scheduledFor ? String(scheduledFor).trim() : undefined,
       idempotencyKey: idempotencyKey || undefined,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -404,7 +433,7 @@ app.post('/api/checkout', (req: Request, res: Response) => {
           previousStatus: undefined,
           newStatus: 'pending',
           actorType: 'customer',
-          notes: `Order created via online portal (${fulfilmentType.toUpperCase()} - ${paymentMethod})`,
+          notes: `Order created via online portal (${fulfilmentType.toUpperCase()} - ${paymentMethod})${scheduledFor ? ` [Scheduled For: ${scheduledFor}]` : ''}`,
           createdAt: new Date().toISOString(),
         }
       ],

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, RefreshCw, Truck, Store, MessageSquare, AlertCircle } from 'lucide-react';
+import { X, CheckCircle2, RefreshCw, Truck, Store, MessageSquare, AlertCircle, Calendar, Clock } from 'lucide-react';
 import { Order, OrderStatus } from '../types';
 import { fetchOrder } from '../services/api';
 
@@ -236,12 +236,12 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
                 {order.fulfilmentType === 'delivery' ? (
                   <>
                     <Truck className="w-4 h-4 text-[#58A846]" />
-                    <span>Lagos Delivery ({order.deliveryZoneName || 'Metro'})</span>
+                    <span>Abuja Delivery ({order.deliveryZoneName || 'Metro'})</span>
                   </>
                 ) : (
                   <>
                     <Store className="w-4 h-4 text-[#58A846]" />
-                    <span>Lounge Pickup (Lekki Phase 1)</span>
+                    <span>Lounge Pickup (Wuse 2, Abuja)</span>
                   </>
                 )}
               </div>
@@ -249,6 +249,12 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
                 <p className="text-[#536353] mt-1 text-[11px] leading-relaxed">
                   {order.deliveryAddress}
                 </p>
+              )}
+              {order.scheduledFor && (
+                <div className="mt-2.5 p-2 bg-[#FFF6D9] border border-[#EFE4BF] rounded-xl flex items-center gap-2 text-[11px] text-[#07552B] font-medium">
+                  <Calendar className="w-3.5 h-3.5 text-[#F28C00] shrink-0" />
+                  <span>Scheduled: <strong className="font-bold">{order.scheduledFor}</strong></span>
+                </div>
               )}
             </div>
 

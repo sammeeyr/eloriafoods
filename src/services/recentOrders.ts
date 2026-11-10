@@ -53,6 +53,7 @@ export function saveRecentOrder(order: Order): RecentOrderSummary[] {
       orderNumber: order.orderNumber,
       customerName: order.customerName,
       createdAt: order.createdAt || new Date().toISOString(),
+      scheduledFor: order.scheduledFor,
       totalAmount: order.totalAmount,
       fulfilmentType: order.fulfilmentType,
       itemsSummary,

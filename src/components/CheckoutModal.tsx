@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CreditCard, Building2, Banknote, ArrowRight, Truck, Store, AlertCircle } from 'lucide-react';
+import { X, CreditCard, Building2, Banknote, ArrowRight, Truck, Store, AlertCircle, Calendar, Clock, Zap } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { PaymentMethod, CheckoutPayload, Order } from '../types';
 import { submitCheckout, initializePayment } from '../services/api';
@@ -34,6 +34,29 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [deliveryInstructions, setDeliveryInstructions] = useState('');
   const [pickupTime, setPickupTime] = useState('As soon as possible (~30 mins)');
+
+  // Scheduling state
+  const [timingType, setTimingType] = useState<'asap' | 'scheduled'>('asap');
+
+  // Today & future date helpers for Africa/Lagos
+  const getTodayDateStr = () => {
+    const lagosOffsetMs = 1 * 60 * 60 * 1000;
+    const now = new Date(Date.now() + lagosOffsetMs);
+    return now.toISOString().slice(0, 10);
+  };
+
+  const getFutureDateStr = (days: number) => {
+    const lagosOffsetMs = 1 * 60 * 60 * 1000;
+    const future = new Date(Date.now() + lagosOffsetMs + days * 86400000);
+    return future.toISOString().slice(0, 10);
+  };
+
+  const todayStr = getTodayDateStr();
+  const maxDateStr = getFutureDateStr(14);
+
+  const [scheduledDate, setScheduledDate] = useState<string>(todayStr);
+  const [scheduledTime, setScheduledTime] = useState<string>('13:00');
+
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('paystack');
   const [transferReference, setTransferReference] = useState('');
   const [customerNotes, setCustomerNotes] = useState('');
@@ -54,7 +77,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     }
 
     if (fulfilmentType === 'delivery' && !deliveryAddress.trim()) {
-      setErrorMessage('Please provide your delivery address in Lagos.');
+      setErrorMessage('Please provide your delivery address in Abuja.');
+      return;
+    }
+
+    if (timingType === 'scheduled' && !scheduledDate) {
+      setErrorMessage('Please select a valid date for scheduled fulfilment.');
       return;
     }
 
@@ -62,6 +90,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       setIsSubmitting(true);
 
       const idempotencyKey = `idemp-${Date.now()}-${Math.random().toString(36).substr(2, 7)}`;
+      const scheduledForValue = timingType === 'scheduled'
+        ? `${scheduledDate} ${scheduledTime} (WAT)`
+        : undefined;
 
       const payload: CheckoutPayload = {
         customerName: customerName.trim(),
@@ -72,6 +103,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         deliveryZoneId: fulfilmentType === 'delivery' ? selectedZoneId : undefined,
         deliveryInstructions: deliveryInstructions.trim() || undefined,
         pickupTime: fulfilmentType === 'pickup' ? pickupTime : undefined,
+        scheduledFor: scheduledForValue,
         paymentMethod,
         customerNotes: customerNotes.trim() || (transferReference ? `Transfer Ref: ${transferReference}` : undefined),
         promoCode: promoCode || undefined,
@@ -124,7 +156,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           <div>
             <h2 className="font-display font-extrabold text-2xl text-[#07552B]">Checkout & Order Placement</h2>
             <p className="text-xs text-[#536353] mt-0.5">
-              {fulfilmentType === 'delivery' ? 'Lagos Doorstep Delivery' : 'Lounge Pickup'} · Total: <span className="font-bold text-[#07552B]">₦{totalAmount.toLocaleString()}</span>
+              {fulfilmentType === 'delivery' ? 'Abuja Doorstep Delivery' : 'Lounge Pickup'} · Total: <span className="font-bold text-[#07552B]">₦{totalAmount.toLocaleString()}</span>
             </p>
           </div>
           <button
@@ -185,11 +217,172 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             </div>
           </div>
 
-          {/* Section 2: Fulfilment Details */}
+          {/* Section 2: Fulfilment Details & Scheduling */}
           <div className="pt-4 border-t border-[#F2E8CA]">
             <h3 className="text-xs font-bold uppercase tracking-wider text-[#07552B] mb-3 font-mono">
-              2. Fulfilment Destination ({fulfilmentType.toUpperCase()})
+              2. Fulfilment & Timing ({fulfilmentType.toUpperCase()})
             </h3>
+
+            {/* Timing Mode: ASAP vs Scheduled */}
+            <div className="mb-4">
+              <label className="block text-xs font-semibold text-[#536353] mb-1.5">
+                When would you like your order?
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setTimingType('asap')}
+                  className={`p-3 rounded-xl border text-left transition-all flex items-start gap-2.5 ${
+                    timingType === 'asap'
+                      ? 'bg-[#07552B] text-white border-[#07552B] shadow-xs'
+                      : 'bg-[#FFFDF2] text-[#202820] border-[#EFE4BF] hover:border-[#07552B]/40'
+                  }`}
+                >
+                  <Zap className={`w-4 h-4 mt-0.5 shrink-0 ${timingType === 'asap' ? 'text-[#F28C00]' : 'text-[#07552B]'}`} />
+                  <div>
+                    <span className="block text-xs font-bold leading-tight">
+                      {fulfilmentType === 'delivery' ? 'Deliver ASAP' : 'Pickup ASAP'}
+                    </span>
+                    <span className={`text-[10px] ${timingType === 'asap' ? 'text-[#FFF6D9]/80' : 'text-[#536353]'}`}>
+                      ~30–45 mins preparation
+                    </span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setTimingType('scheduled')}
+                  className={`p-3 rounded-xl border text-left transition-all flex items-start gap-2.5 ${
+                    timingType === 'scheduled'
+                      ? 'bg-[#07552B] text-white border-[#07552B] shadow-xs'
+                      : 'bg-[#FFFDF2] text-[#202820] border-[#EFE4BF] hover:border-[#07552B]/40'
+                  }`}
+                >
+                  <Calendar className={`w-4 h-4 mt-0.5 shrink-0 ${timingType === 'scheduled' ? 'text-[#F28C00]' : 'text-[#07552B]'}`} />
+                  <div>
+                    <span className="block text-xs font-bold leading-tight">
+                      Schedule for Later
+                    </span>
+                    <span className={`text-[10px] ${timingType === 'scheduled' ? 'text-[#FFF6D9]/80' : 'text-[#536353]'}`}>
+                      Select date & time slot
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* Scheduled Date & Time Picker Controls */}
+            {timingType === 'scheduled' && (
+              <div className="mb-4 p-4 bg-[#FFF6D9] border border-[#EFE4BF] rounded-2xl space-y-3 animate-in fade-in duration-200">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#07552B]">
+                    <Calendar className="w-4 h-4 text-[#F28C00]" />
+                    <span>Select Scheduled Date & Kitchen Slot</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-[#536353] font-semibold">Africa/Lagos (WAT)</span>
+                </div>
+
+                {/* Quick Date Presets */}
+                <div className="flex flex-wrap gap-1.5 text-[11px]">
+                  <button
+                    type="button"
+                    onClick={() => setScheduledDate(todayStr)}
+                    className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                      scheduledDate === todayStr
+                        ? 'bg-[#07552B] text-white shadow-xs'
+                        : 'bg-white text-[#536353] border border-[#EFE4BF] hover:bg-[#FFFDF2]'
+                    }`}
+                  >
+                    Today
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setScheduledDate(getFutureDateStr(1))}
+                    className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                      scheduledDate === getFutureDateStr(1)
+                        ? 'bg-[#07552B] text-white shadow-xs'
+                        : 'bg-white text-[#536353] border border-[#EFE4BF] hover:bg-[#FFFDF2]'
+                    }`}
+                  >
+                    Tomorrow
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setScheduledDate(getFutureDateStr(2))}
+                    className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                      scheduledDate === getFutureDateStr(2)
+                        ? 'bg-[#07552B] text-white shadow-xs'
+                        : 'bg-white text-[#536353] border border-[#EFE4BF] hover:bg-[#FFFDF2]'
+                    }`}
+                  >
+                    In 2 Days
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setScheduledDate(getFutureDateStr(3))}
+                    className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                      scheduledDate === getFutureDateStr(3)
+                        ? 'bg-[#07552B] text-white shadow-xs'
+                        : 'bg-white text-[#536353] border border-[#EFE4BF] hover:bg-[#FFFDF2]'
+                    }`}
+                  >
+                    In 3 Days
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#07552B] mb-1">
+                      Target Fulfilment Date *
+                    </label>
+                    <input
+                      type="date"
+                      required
+                      min={todayStr}
+                      max={maxDateStr}
+                      value={scheduledDate}
+                      onChange={e => setScheduledDate(e.target.value)}
+                      className="w-full bg-white border border-[#EFE4BF] focus:border-[#07552B] rounded-xl p-2.5 text-xs text-[#202820] font-medium outline-none shadow-2xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#07552B] mb-1">
+                      Kitchen Slot (11:00 AM – 10:30 PM) *
+                    </label>
+                    <select
+                      value={scheduledTime}
+                      onChange={e => setScheduledTime(e.target.value)}
+                      className="w-full bg-white border border-[#EFE4BF] focus:border-[#07552B] rounded-xl p-2.5 text-xs text-[#202820] font-medium outline-none shadow-2xs"
+                    >
+                      <option value="11:30">11:30 AM (Opening Slot)</option>
+                      <option value="12:00">12:00 PM (Early Lunch)</option>
+                      <option value="12:30">12:30 PM (Midday Lunch)</option>
+                      <option value="13:00">01:00 PM (Prime Lunch Hour)</option>
+                      <option value="13:30">01:30 PM (Afternoon Lunch)</option>
+                      <option value="14:00">02:00 PM (Late Lunch)</option>
+                      <option value="15:00">03:00 PM (Mid-Afternoon)</option>
+                      <option value="16:00">04:00 PM (Early Evening)</option>
+                      <option value="17:00">05:00 PM (Evening Restock)</option>
+                      <option value="18:00">06:00 PM (Early Dinner)</option>
+                      <option value="19:00">07:00 PM (Prime Dinner)</option>
+                      <option value="19:30">07:30 PM (Dinner Rush)</option>
+                      <option value="20:00">08:00 PM (Lounge Dining)</option>
+                      <option value="21:00">09:00 PM (Late Lounge)</option>
+                      <option value="22:00">10:00 PM (Closing Orders)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 p-2.5 bg-white rounded-xl border border-[#58A846]/30 text-[11px] text-[#07552B]">
+                  <Clock className="w-3.5 h-3.5 text-[#58A846] shrink-0" />
+                  <span>
+                    Scheduled: <strong className="font-bold">{scheduledDate}</strong> at <strong className="font-bold">{scheduledTime} (WAT)</strong>. Kitchen will prepare this order fresh for your chosen slot.
+                  </span>
+                </div>
+              </div>
+            )}
+
             {fulfilmentType === 'delivery' ? (
               <div className="space-y-3">
                 <div>
@@ -201,7 +394,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     rows={2}
                     value={deliveryAddress}
                     onChange={e => setDeliveryAddress(e.target.value)}
-                    placeholder="e.g. House 14, Block B, Road 3, Lekki Phase 1"
+                    placeholder="e.g. Flat 4, Plot 12 Aminu Kano Crescent, Wuse 2, Abuja"
                     className="w-full bg-[#FFFDF2] border border-[#EFE4BF] focus:border-[#07552B] rounded-xl p-3 text-xs text-[#202820] placeholder-[#8A908A] outline-none font-medium"
                   />
                 </div>
@@ -223,21 +416,23 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
             ) : (
               <div className="space-y-3">
-                <div>
-                  <label className="block text-xs font-semibold text-[#536353] mb-1">Pickup Time</label>
-                  <select
-                    value={pickupTime}
-                    onChange={e => setPickupTime(e.target.value)}
-                    className="w-full bg-[#FFFDF2] border border-[#EFE4BF] focus:border-[#07552B] rounded-xl p-3 text-xs text-[#202820] outline-none font-medium"
-                  >
-                    <option value="As soon as possible (~30 mins)">As soon as possible (~30 mins)</option>
-                    <option value="In 45 minutes">In 45 minutes</option>
-                    <option value="In 1 hour">In 1 hour</option>
-                    <option value="This Evening (7:00 PM - 9:00 PM)">This Evening (7:00 PM - 9:00 PM)</option>
-                  </select>
-                </div>
+                {timingType === 'asap' && (
+                  <div>
+                    <label className="block text-xs font-semibold text-[#536353] mb-1">Pickup Readiness</label>
+                    <select
+                      value={pickupTime}
+                      onChange={e => setPickupTime(e.target.value)}
+                      className="w-full bg-[#FFFDF2] border border-[#EFE4BF] focus:border-[#07552B] rounded-xl p-3 text-xs text-[#202820] outline-none font-medium"
+                    >
+                      <option value="As soon as possible (~30 mins)">As soon as possible (~30 mins)</option>
+                      <option value="In 45 minutes">In 45 minutes</option>
+                      <option value="In 1 hour">In 1 hour</option>
+                      <option value="This Evening (7:00 PM - 9:00 PM)">This Evening (7:00 PM - 9:00 PM)</option>
+                    </select>
+                  </div>
+                )}
                 <div className="text-xs text-[#536353] bg-[#FFF6D9] p-3 rounded-xl border border-[#EFE4BF]">
-                  Pickup Address: <span className="text-[#07552B] font-bold">Plot 14B Admiralty Way, Lekki Phase 1, Lagos</span>
+                  Pickup Address: <span className="text-[#07552B] font-bold">Plot 1047 Aminu Kano Crescent, Wuse 2, Abuja</span>
                 </div>
               </div>
             )}

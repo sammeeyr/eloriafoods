@@ -77,7 +77,7 @@ export const DailyMenuSection: React.FC<DailyMenuSectionProps> = ({ onSelectProd
           <div>
             <div className="flex items-center gap-2 text-xs font-mono text-[#07552B] mb-2 uppercase tracking-widest font-bold">
               <Calendar className="w-3.5 h-3.5 text-[#58A846]" />
-              <span>Africa/Lagos Business Date · {dailyMenu?.menuDate || 'Today'}</span>
+              <span>Abuja Business Date · {dailyMenu?.menuDate || 'Today'}</span>
             </div>
             <h2 className="font-display font-black text-3xl sm:text-4xl text-[#07552B] tracking-tight">
               TODAY'S MENU

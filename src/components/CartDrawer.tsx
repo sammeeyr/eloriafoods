@@ -80,7 +80,7 @@ export const CartDrawer: React.FC = () => {
                   <ShoppingBag className="w-7 h-7" />
                 </div>
                 <p className="text-base font-bold text-[#07552B] mb-1">Your bag is empty</p>
-                <p className="text-xs text-[#536353] mb-6">Explore today’s menu to add your favorite Lagos delicacies.</p>
+                <p className="text-xs text-[#536353] mb-6">Explore today’s menu to add your favorite Abuja delicacies.</p>
                 <button
                   onClick={() => setIsCartOpen(false)}
                   className="px-6 py-3 bg-[#F28C00] hover:bg-[#D97D00] text-white text-xs font-bold rounded-xl transition-colors shadow-xs uppercase tracking-wider"
@@ -102,7 +102,7 @@ export const CartDrawer: React.FC = () => {
                     }`}
                   >
                     <Truck className="w-3.5 h-3.5" />
-                    <span>Lagos Delivery</span>
+                    <span>Abuja Delivery</span>
                   </button>
                   <button
                     type="button"
@@ -266,7 +266,7 @@ export const CartDrawer: React.FC = () => {
                 </div>
                 {fulfilmentType === 'delivery' && (
                   <div className="flex justify-between">
-                    <span>Lagos Delivery Fee</span>
+                    <span>Abuja Delivery Fee</span>
                     <span className="font-mono text-[#202820] font-bold tabular-nums">₦{deliveryFee.toLocaleString()}</span>
                   </div>
                 )}

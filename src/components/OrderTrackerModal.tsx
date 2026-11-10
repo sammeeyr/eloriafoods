@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Search, Clock, ArrowRight, AlertCircle, Truck, Store, ChevronRight } from 'lucide-react';
+import { X, Search, Clock, ArrowRight, AlertCircle, Truck, Store, ChevronRight, Calendar } from 'lucide-react';
 import { fetchOrder } from '../services/api';
 import { Order, RecentOrderSummary } from '../types';
 import { getRecentOrders, saveRecentOrder, removeRecentOrder, clearRecentOrders } from '../services/recentOrders';
@@ -236,6 +236,15 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                           )}
                           <span className="capitalize">{item.fulfilmentType}</span>
                         </span>
+                        {item.scheduledFor && (
+                          <>
+                            <span>·</span>
+                            <span className="flex items-center gap-1 text-[10px] text-[#07552B] bg-[#FFF6D9] px-2 py-0.5 rounded-md font-mono">
+                              <Calendar className="w-2.5 h-2.5 text-[#F28C00]" />
+                              <span>{item.scheduledFor}</span>
+                            </span>
+                          </>
+                        )}
                         <span>·</span>
                         <span className="font-mono text-[#07552B] font-extrabold tabular-nums">
                           ₦{item.totalAmount.toLocaleString()}

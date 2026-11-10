@@ -39,6 +39,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAdmin, onOpenTrackOrder })
           <a href="#meal-plan" className="hover:text-[#F28C00] transition-colors whitespace-nowrap font-bold text-[#F28C00]">
             5-Day Lunch Plan
           </a>
+          <a href="#testimonials" className="hover:text-[#F28C00] transition-colors whitespace-nowrap">
+            Reviews
+          </a>
           <button
             onClick={onOpenTrackOrder}
             className="hover:text-[#F28C00] transition-colors whitespace-nowrap flex items-center gap-1.5"

@@ -47,7 +47,7 @@ export const MarketBasketsSection: React.FC = () => {
 
           <div className="flex items-center gap-2 text-xs text-[#07552B] bg-white px-4 py-2 rounded-xl border border-[#EFE4BF] self-start md:self-auto font-mono shadow-xs font-semibold">
             <Truck className="w-4 h-4 text-[#58A846]" />
-            <span>Doorstep delivery across Lagos</span>
+            <span>Doorstep delivery across Abuja</span>
           </div>
         </div>
 
