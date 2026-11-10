@@ -3,6 +3,7 @@ import { Calendar, Utensils, Sparkles } from 'lucide-react';
 import { Product, DailyMenuItem, DailyMenu, Category } from '../types';
 import { ProductCard } from './ProductCard';
 import { fetchTodayMenu } from '../services/api';
+import { generateInitialDailyMenu, INITIAL_CATEGORIES } from '../data/mockData';
 import { useCart } from '../context/CartContext';
 
 interface DailyMenuSectionProps {
@@ -11,10 +12,10 @@ interface DailyMenuSectionProps {
 
 export const DailyMenuSection: React.FC<DailyMenuSectionProps> = ({ onSelectProduct }) => {
   const { addItem } = useCart();
-  const [dailyMenu, setDailyMenu] = useState<DailyMenu | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [dailyMenu, setDailyMenu] = useState<DailyMenu | null>(() => generateInitialDailyMenu());
+  const [categories, setCategories] = useState<Category[]>(() => INITIAL_CATEGORIES);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,16 +24,21 @@ export const DailyMenuSection: React.FC<DailyMenuSectionProps> = ({ onSelectProd
 
   const loadMenu = async () => {
     try {
-      setLoading(true);
-      const data: any = await fetchTodayMenu();
-      setDailyMenu(data);
-      if (data.categories) {
-        setCategories(data.categories);
-      }
       setError(null);
+      const data: any = await fetchTodayMenu();
+      if (data && Array.isArray(data.items) && data.items.length > 0) {
+        setDailyMenu(data);
+        if (data.categories) {
+          setCategories(data.categories);
+        }
+      }
     } catch (err: any) {
-      console.error('Failed to load daily menu:', err);
-      setError('Unable to load today\'s menu. Please check your connection.');
+      console.warn('Network issue loading live daily menu, using fallback:', err);
+      // Ensure dailyMenu is populated from fallback
+      if (!dailyMenu) {
+        setDailyMenu(generateInitialDailyMenu());
+        setCategories(INITIAL_CATEGORIES);
+      }
     } finally {
       setLoading(false);
     }
@@ -124,8 +130,8 @@ export const DailyMenuSection: React.FC<DailyMenuSectionProps> = ({ onSelectProd
           </div>
         )}
 
-        {/* Error State */}
-        {error && (
+        {/* Error State only if completely empty */}
+        {error && (!dailyMenu || dailyMenu.items.length === 0) && (
           <div className="p-8 rounded-2xl bg-white border border-[#EFE4BF] text-center max-w-md mx-auto shadow-sm">
             <p className="text-sm text-[#B91C1C] mb-4 font-semibold">{error}</p>
             <button
@@ -138,8 +144,7 @@ export const DailyMenuSection: React.FC<DailyMenuSectionProps> = ({ onSelectProd
         )}
 
         {/* Products Grid (Pure White Cards on Warm Cream Canvas) */}
-        {!loading && !error && (
-          filteredItems.length > 0 ? (
+        {filteredItems.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {filteredItems.map(item => {
                 if (!item.product) return null;
@@ -158,8 +163,7 @@ export const DailyMenuSection: React.FC<DailyMenuSectionProps> = ({ onSelectProd
             <div className="py-16 text-center text-[#536353] text-sm bg-white rounded-2xl border border-[#EFE4BF]">
               No dishes found under this category today. Please explore our other selections.
             </div>
-          )
-        )}
+          )}
       </div>
     </section>
   );

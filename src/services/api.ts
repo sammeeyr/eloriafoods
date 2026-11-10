@@ -1,23 +1,50 @@
 import { CheckoutPayload, Order, DailyMenu, DeliveryZone, RestaurantSettings, PromotionalCode } from '../types';
+import { generateInitialDailyMenu, INITIAL_CATEGORIES, INITIAL_DELIVERY_ZONES, INITIAL_SETTINGS } from '../data/mockData';
 
 const API_BASE = '';
 
-export async function fetchTodayMenu(): Promise<DailyMenu> {
-  const res = await fetch(`${API_BASE}/api/menu/today`);
-  if (!res.ok) throw new Error('Failed to fetch today\'s menu');
-  return res.json();
+export async function fetchTodayMenu(): Promise<DailyMenu & { categories?: typeof INITIAL_CATEGORIES }> {
+  try {
+    const res = await fetch(`${API_BASE}/api/menu/today`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.items) && data.items.length > 0) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn('Network issue fetching today menu, using initial menu fallback', err);
+  }
+
+  const fallback = generateInitialDailyMenu();
+  return {
+    ...fallback,
+    categories: INITIAL_CATEGORIES,
+  };
 }
 
 export async function fetchDeliveryZones(): Promise<DeliveryZone[]> {
-  const res = await fetch(`${API_BASE}/api/delivery-zones`);
-  if (!res.ok) throw new Error('Failed to fetch delivery zones');
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE}/api/delivery-zones`);
+    if (res.ok) return res.json();
+  } catch (err) {
+    console.warn('Network issue fetching delivery zones, using fallback', err);
+  }
+  return INITIAL_DELIVERY_ZONES;
 }
 
 export async function fetchSettings(): Promise<RestaurantSettings & { currency: string; timezone: string }> {
-  const res = await fetch(`${API_BASE}/api/settings`);
-  if (!res.ok) throw new Error('Failed to fetch restaurant settings');
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE}/api/settings`);
+    if (res.ok) return res.json();
+  } catch (err) {
+    console.warn('Network issue fetching restaurant settings, using fallback', err);
+  }
+  return {
+    ...INITIAL_SETTINGS,
+    currency: 'NGN',
+    timezone: 'Africa/Lagos',
+  };
 }
 
 export async function validatePromotion(code: string, subtotal: number): Promise<{

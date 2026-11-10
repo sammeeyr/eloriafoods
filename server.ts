@@ -148,22 +148,19 @@ app.post('/api/testimonials', (req: Request, res: Response) => {
 // -----------------------------------------------------------------------------
 // 3. DAILY MENU ENGINE
 // -----------------------------------------------------------------------------
-// Public endpoint: returns only active published menu for today in Africa/Lagos
 app.get('/api/menu/today', (_req: Request, res: Response) => {
   const menu = getOrCreateTodayMenu();
-  if (menu.status !== 'published') {
-    return res.status(200).json({
-      menuDate: menu.menuDate,
-      status: menu.status,
-      title: 'Kitchen Preparing Today’s Menu',
-      description: 'Our culinary team is currently curating today’s selection. Please check back shortly.',
-      items: [],
-      categories: INITIAL_CATEGORIES,
-    });
+
+  let menuItems = menu.items;
+  if (!menuItems || menuItems.length === 0) {
+    const fallbackMenu = generateInitialDailyMenu();
+    menu.items = fallbackMenu.items;
+    menu.status = 'published';
+    menuItems = menu.items;
   }
 
-  // Filter to only available items for public view
-  const publicItems = menu.items.map(item => {
+  // Map product details onto each menu item
+  const publicItems = menuItems.map(item => {
     const product = INITIAL_PRODUCTS.find(p => p.id === item.productId);
     return {
       ...item,
@@ -173,6 +170,7 @@ app.get('/api/menu/today', (_req: Request, res: Response) => {
 
   res.json({
     ...menu,
+    status: 'published',
     items: publicItems,
     categories: INITIAL_CATEGORIES,
   });
