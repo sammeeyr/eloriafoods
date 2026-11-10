@@ -1,0 +1,6 @@
+{
+  "name": "Dera Buzor Lounge",
+  "description": "Taste More. Relax Better. Premium online restaurant ordering, daily chef's menu, and lounge experience in Lagos, Nigeria.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="310" viewBox="0 0 600 310" role="img">
+  <title>Dera Buzor Lounge</title>
+  <desc>Editable vector logo. Brand colours: Dera Red #E10600, Teal #00B4B4, Pure White #FFFFFF, Premium Black #0B0B0B.</desc>
+  
+  
+  
+    <g transform="translate(110 0) scale(0.82)">
+      <path d="M44 76 C49 39 79 13 116 13 C153 13 183 39 188 76"
+            fill="none" stroke="#0B0B0B" stroke-width="9" stroke-linecap="round"/>
+      <path d="M57 70 C69 43 91 30 116 30 C141 30 163 43 175 70"
+            fill="none" stroke="#0B0B0B" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="116" cy="8" r="8" fill="#0B0B0B"/>
+      <path d="M22 105 C65 77 112 72 160 82 C184 87 205 96 224 108
+               C175 101 126 104 81 119 C57 127 37 137 16 150
+               C35 131 52 118 76 108 C119 89 167 88 207 99"
+            fill="#E10600"/>
+      <path d="M63 137 C111 111 166 108 218 122 C192 119 165 122 139 130
+               C111 139 87 151 65 166 C91 145 122 132 154 128 C178 125 199 127 221 134"
+            fill="#00B4B4"/>
+    </g>
+  <text x="300" y="195" text-anchor="middle" font-family="Montserrat, Poppins, Arial, sans-serif"
+        font-size="55" font-weight="800" letter-spacing="-2.5" fill="#0B0B0B">Dera Buzor</text>
+  <path d="M90 220 H185 M415 220 H510" stroke="#E10600" stroke-width="5" stroke-linecap="round"/>
+  <text x="300" y="246" text-anchor="middle" font-family="Montserrat, Arial, sans-serif"
+        font-size="29" font-weight="700" letter-spacing="11" fill="#00B4B4">LOUNGE</text>
+  <text x="300" y="286" text-anchor="middle" font-family="Poppins, Arial, sans-serif"
+        font-size="19" font-style="italic" font-weight="600" fill="#0B0B0B">Taste More. Relax Better.</text>
+
+</svg>
