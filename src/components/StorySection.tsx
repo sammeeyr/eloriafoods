@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flame, Sparkles, GlassWater } from 'lucide-react';
+import { Flame, Utensils, GlassWater } from 'lucide-react';
 
 export const StorySection: React.FC = () => {
   return (
@@ -62,7 +62,7 @@ export const StorySection: React.FC = () => {
             <div className="p-6 flex-1 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-xs font-mono text-[#07552B] font-bold mb-2">
-                  <Sparkles className="w-3.5 h-3.5 text-[#58A846]" />
+                  <Utensils className="w-3.5 h-3.5 text-[#58A846]" />
                   <span>Native Heritage</span>
                 </div>
                 <h3 className="font-display font-bold text-xl text-[#07552B] mb-2">

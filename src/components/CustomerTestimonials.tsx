@@ -8,7 +8,6 @@ import {
   MessageSquarePlus, 
   X, 
   CheckCircle2, 
-  Sparkles,
   MapPin,
   UtensilsCrossed,
   Clock
@@ -146,7 +145,7 @@ export const CustomerTestimonials: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono text-[#58A846] mb-2 uppercase tracking-widest font-bold">
-              <Sparkles className="w-3.5 h-3.5 text-[#F28C00]" />
+              <Star className="w-3.5 h-3.5 text-[#F28C00] fill-[#F28C00]" />
               <span>Real Abuja Diners & Subscribers</span>
             </div>
             <h2 className="font-display font-black text-3xl sm:text-4xl text-[#FFF6D9] tracking-tight">

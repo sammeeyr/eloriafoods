@@ -66,6 +66,7 @@ export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'prod-meal-jollof',
     categoryId: 'cat-meals',
+    mealType: 'rice-mains',
     name: 'Smokey Jollof + Plantain + Chicken',
     slug: 'smokey-jollof-plantain-chicken',
     description: 'Signature party firewood jollof rice simmered in plum tomato stew, served with golden sweet dodo plantain and seasoned crispy fried chicken.',
@@ -87,6 +88,7 @@ export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'prod-meal-fried-rice',
     categoryId: 'cat-meals',
+    mealType: 'rice-mains',
     name: 'Fried Rice + Plantain + Chicken',
     slug: 'fried-rice-plantain-chicken',
     description: 'Fragrant buttered fried rice tossed with sweet corn, carrots, green peas, and liver, served with fried plantain and crispy golden chicken.',
@@ -107,6 +109,7 @@ export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'prod-meal-spag',
     categoryId: 'cat-meals',
+    mealType: 'rice-mains',
     name: 'Stir Fried Spaghetti + Chicken',
     slug: 'stir-fried-spaghetti-chicken',
     description: 'Italian spaghetti tossed in spicy scotch bonnet relish, sweet peppers, sweet corn, and shredded carrots, served with succulent fried chicken.',
@@ -127,6 +130,7 @@ export const INITIAL_PRODUCTS: Product[] = [
   {
     id: 'prod-meal-egusi',
     categoryId: 'cat-meals',
+    mealType: 'soups',
     name: 'Rich Egusi Soup with Catfish & Assorted Beef',
     slug: 'rich-egusi-soup-swallow',
     description: 'Artisanal fried melon seed soup enriched with fluted pumpkin ugwu leaves, smoked stockfish, tender beef, and fresh catfish. Served with smooth pounded yam or eba.',
@@ -141,6 +145,49 @@ export const INITIAL_PRODUCTS: Product[] = [
     addons: [
       { id: 'a-eg1', productId: 'prod-meal-egusi', name: 'Extra Catfish Portion', price: 1500, maxQuantity: 2, isActive: true },
       { id: 'a-eg2', productId: 'prod-meal-egusi', name: 'Extra Swallow Wrap', price: 500, maxQuantity: 3, isActive: true },
+    ],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'prod-meal-swallow-pounded-yam',
+    categoryId: 'cat-meals',
+    mealType: 'swallows',
+    name: 'Pounded Yam + Native Egusi & Goat Meat',
+    slug: 'pounded-yam-egusi-goat-meat',
+    description: 'Piping hot, pillowy smooth pounded yam paired with authentic slow-simmered egusi soup, tender goat meat, and smoked dried catfish.',
+    imagePath: '/assets/aistudio/egusi_15da00a5.png',
+    basePrice: 5500,
+    isActive: true,
+    variants: [
+      { id: 'v-py1', productId: 'prod-meal-swallow-pounded-yam', name: 'Fresh Pounded Yam (Default)', priceModifier: 0, isDefault: true, isActive: true },
+      { id: 'v-py2', productId: 'prod-meal-swallow-pounded-yam', name: 'Yellow Garri (Eba) Wrap', priceModifier: 0, isDefault: false, isActive: true },
+      { id: 'v-py3', productId: 'prod-meal-swallow-pounded-yam', name: 'Fluffy Semovita', priceModifier: 0, isDefault: false, isActive: true },
+    ],
+    addons: [
+      { id: 'a-py1', productId: 'prod-meal-swallow-pounded-yam', name: 'Extra Goat Meat Chunk', price: 1800, maxQuantity: 2, isActive: true },
+      { id: 'a-py2', productId: 'prod-meal-swallow-pounded-yam', name: 'Extra Pounded Yam Wrap', price: 600, maxQuantity: 2, isActive: true },
+    ],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'prod-meal-small-chops',
+    categoryId: 'cat-meals',
+    mealType: 'small-chops',
+    name: 'Abuja Deluxe Small Chops & Peppered Asun Platter',
+    slug: 'deluxe-small-chops-peppered-asun',
+    description: 'Crispy vegetable spring rolls, golden beef samosas, fluffy sweet puff puff, spicy peppered gizzard, and fiery charcoal-grilled goat meat asun.',
+    imagePath: '/assets/aistudio/jollof-plate_ea4269ad.png',
+    basePrice: 4500,
+    isActive: true,
+    variants: [
+      { id: 'v-sc1', productId: 'prod-meal-small-chops', name: 'Standard Party Platter (12 pcs)', priceModifier: 0, isDefault: true, isActive: true },
+      { id: 'v-sc2', productId: 'prod-meal-small-chops', name: 'VIP Sharing Box (24 pcs)', priceModifier: 3500, isDefault: false, isActive: true },
+    ],
+    addons: [
+      { id: 'a-sc1', productId: 'prod-meal-small-chops', name: 'Extra Peppered Asun Cup', price: 2000, maxQuantity: 2, isActive: true },
+      { id: 'a-sc2', productId: 'prod-meal-small-chops', name: 'Extra 5x Puff Puff', price: 500, maxQuantity: 3, isActive: true },
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -456,16 +503,19 @@ export const WEEKLY_TIMETABLE: Record<string, { day: string; dishName: string; p
   FRI: { day: 'Friday', dishName: 'Fried Rice + Plantain + Chicken', price: 4000, imagePath: '/assets/aistudio/jollof-bowl_89e7c04f.png' },
 };
 
-// Helper to get Lagos date string YYYY-MM-DD
-export function getLagosDateString(offsetDays = 0): string {
-  // Africa/Lagos is UTC+1 (no daylight saving)
-  const lagosOffsetMs = 1 * 60 * 60 * 1000;
-  const now = new Date(Date.now() + lagosOffsetMs + offsetDays * 86400000);
+// Helper to get Abuja / WAT date string YYYY-MM-DD
+export function getAbujaDateString(offsetDays = 0): string {
+  // WAT (Abuja) is UTC+1 (no daylight saving)
+  const watOffsetMs = 1 * 60 * 60 * 1000;
+  const now = new Date(Date.now() + watOffsetMs + offsetDays * 86400000);
   return now.toISOString().slice(0, 10);
 }
 
+// Backward-compatible alias
+export const getLagosDateString = getAbujaDateString;
+
 export function generateInitialDailyMenu(): DailyMenu {
-  const today = getLagosDateString(0);
+  const today = getAbujaDateString(0);
   return {
     id: `dm-${today}`,
     menuDate: today,

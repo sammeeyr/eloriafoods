@@ -21,6 +21,46 @@ export type OrderStatus =
 
 export type UserRole = 'admin' | 'manager' | 'staff';
 
+export type Permission = 
+  | 'orders:read'
+  | 'orders:write'
+  | 'orders:status'
+  | 'orders:delete'
+  | 'menu:read'
+  | 'menu:write'
+  | 'menu:availability'
+  | 'menu:delete'
+  | 'finance:verify'
+  | 'settings:read'
+  | 'settings:write'
+  | 'reports:read'
+  | 'staff:read'
+  | 'staff:write'
+  | 'staff:delete';
+
+export interface AuthUser {
+  id: string;
+  fullName: string;
+  email?: string;
+  role: UserRole;
+  permissions: Permission[];
+}
+
+export type StaffDepartment = 'Kitchen' | 'Dispatch' | 'Bar & Lounge' | 'Floor & Counter';
+
+export interface StaffMember {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: UserRole;
+  department: StaffDepartment;
+  passcode: string;
+  isActive: boolean;
+  createdAt: string;
+  lastLogin?: string;
+}
+
 export interface Profile {
   id: string;
   fullName: string;
@@ -60,6 +100,7 @@ export interface ProductAddon {
 export interface Product {
   id: string;
   categoryId: string;
+  mealType?: 'soups' | 'swallows' | 'rice-mains' | 'small-chops' | 'drinks' | string;
   name: string;
   slug: string;
   description: string;
@@ -85,7 +126,7 @@ export interface DailyMenuItem {
 
 export interface DailyMenu {
   id: string;
-  menuDate: string; // YYYY-MM-DD (Africa/Lagos)
+  menuDate: string; // YYYY-MM-DD (Abuja / WAT)
   title: string;
   description?: string;
   status: 'draft' | 'published' | 'archived';
@@ -199,7 +240,7 @@ export interface OrderStatusHistory {
   orderId: string;
   previousStatus?: string;
   newStatus: OrderStatus;
-  actorType: 'customer' | 'admin' | 'system' | 'webhook';
+  actorType: 'customer' | 'admin' | 'staff' | 'kitchen' | 'system' | 'webhook';
   actorId?: string;
   notes?: string;
   createdAt: string;

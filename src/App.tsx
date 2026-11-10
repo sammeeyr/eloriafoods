@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CartProvider, useCart } from './context/CartContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -19,20 +19,54 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { PaymentSandboxModal } from './components/PaymentSandboxModal';
 import { FloatingCartBar } from './components/FloatingCartBar';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
+import { ChefSpecialToast } from './components/ChefSpecialToast';
 import { Product, DailyMenuItem, Order } from './types';
 import { saveRecentOrder } from './services/recentOrders';
+
+const checkIsStaffOrAdmin = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const path = window.location.pathname.toLowerCase();
+  const search = window.location.search.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+  return (
+    path === '/admin' ||
+    path === '/staff' ||
+    path.startsWith('/admin/') ||
+    path.startsWith('/staff/') ||
+    search.includes('admin') ||
+    search.includes('staff') ||
+    hash === '#admin' ||
+    hash === '#staff'
+  );
+};
 
 const MainApp: React.FC = () => {
   const { isCheckoutOpen, setIsCheckoutOpen } = useCart();
 
-  // Modals state
+  // Route isolation: 'home' for public storefront, 'admin' for dedicated staff portal
+  const [currentRoute, setCurrentRoute] = useState<'home' | 'admin'>(() => {
+    return checkIsStaffOrAdmin() ? 'admin' : 'home';
+  });
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentRoute(checkIsStaffOrAdmin() ? 'admin' : 'home');
+    };
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  const handleReturnToHome = () => {
+    window.history.pushState({}, '', '/');
+    setCurrentRoute('home');
+  };
+
+  // Modals state for public storefront
   const [selectedProduct, setSelectedProduct] = useState<{ product: Product; menuItem?: DailyMenuItem } | null>(null);
   const [activeOrder, setActiveOrder] = useState<Order | null>(null);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState<boolean>(false);
   const [authorizationUrl, setAuthorizationUrl] = useState<string | undefined>(undefined);
-
   const [isTrackModalOpen, setIsTrackModalOpen] = useState<boolean>(false);
-  const [isAdminOpen, setIsAdminOpen] = useState<boolean>(false);
 
   // Payment Sandbox simulation
   const [isSandboxOpen, setIsSandboxOpen] = useState<boolean>(false);
@@ -64,7 +98,6 @@ const MainApp: React.FC = () => {
   };
 
   const handlePaymentVerified = (orderNum: string) => {
-    // Refresh active order in confirmation modal
     if (activeOrder && activeOrder.orderNumber === orderNum) {
       setActiveOrder({
         ...activeOrder,
@@ -88,16 +121,26 @@ const MainApp: React.FC = () => {
     }
   };
 
+  // Dedicated, isolated Staff Operations Portal route
+  if (currentRoute === 'admin') {
+    return (
+      <AdminDashboard
+        isStandalonePage={true}
+        onReturnToHome={handleReturnToHome}
+      />
+    );
+  }
+
+  // Public Storefront (No admin entry buttons visible to the public)
   return (
-    <div className="min-h-screen bg-[#FFF6D9] text-[#202820] flex flex-col font-sans selection:bg-[#F28C00] selection:text-white pb-16 sm:pb-0">
-      {/* Navigation Top Bar */}
+    <div className="min-h-screen bg-[#FFF6D9] text-[#202820] flex flex-col font-sans selection:bg-[#F28C00] selection:text-white pb-16 sm:pb-0 animate-page-enter">
+      {/* Navigation Top Bar without staff/admin buttons */}
       <Header
-        onOpenAdmin={() => setIsAdminOpen(true)}
         onOpenTrackOrder={() => setIsTrackModalOpen(true)}
       />
 
       <main className="flex-1">
-        {/* Tehillah's 2-Card Hero Showcase */}
+        {/* 2-Card Hero Showcase */}
         <Hero
           onExploreMenu={scrollToMeals}
           onExploreBaskets={scrollToBaskets}
@@ -130,9 +173,8 @@ const MainApp: React.FC = () => {
         <StorySection />
       </main>
 
-      {/* Footer & Contacts */}
+      {/* Footer without staff/admin button */}
       <Footer
-        onOpenAdmin={() => setIsAdminOpen(true)}
         onOpenTrackOrder={() => setIsTrackModalOpen(true)}
       />
 
@@ -141,6 +183,9 @@ const MainApp: React.FC = () => {
 
       {/* Floating WhatsApp Quick Order Overlay */}
       <WhatsAppFloatingButton />
+
+      {/* Subtle 'Today's Chef Special' Toast Notification (Appears after 3 seconds) */}
+      <ChefSpecialToast onOrderSpecial={scrollToMeals} />
 
       {/* Product Customization Modal */}
       <ProductModal
@@ -180,12 +225,6 @@ const MainApp: React.FC = () => {
         isOpen={isTrackModalOpen}
         onClose={() => setIsTrackModalOpen(false)}
         onOrderFound={handleOrderFound}
-      />
-
-      {/* Administrator Operations Portal */}
-      <AdminDashboard
-        isOpen={isAdminOpen}
-        onClose={() => setIsAdminOpen(false)}
       />
 
       {/* Interactive Paystack Gateway Sandbox */}

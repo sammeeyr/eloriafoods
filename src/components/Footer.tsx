@@ -1,12 +1,11 @@
 import React from 'react';
-import { MapPin, Phone, MessageSquare, Clock, Mail, ShieldCheck } from 'lucide-react';
+import { MapPin, Phone, MessageSquare, Clock, Mail } from 'lucide-react';
 
 interface FooterProps {
-  onOpenAdmin: () => void;
   onOpenTrackOrder: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenTrackOrder }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenTrackOrder }) => {
   return (
     <footer id="contact" className="bg-[#07552B] text-white border-t border-[#054020]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -23,15 +22,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenTrackOrder })
             <p className="text-xs text-[#D6E8CF] leading-relaxed">
               Taste More. Relax Better. Authentic Nigerian culinary excellence, curated daily menus, foodstuff market baskets, and relaxed lounge comfort in Abuja.
             </p>
-            <div className="pt-2">
-              <button
-                onClick={onOpenAdmin}
-                className="inline-flex items-center gap-1.5 text-xs text-[#FFF6D9] hover:text-[#F28C00] font-semibold transition-colors underline"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-[#58A846]" />
-                <span>Restaurant Staff Management Portal</span>
-              </button>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -73,7 +63,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin, onOpenTrackOrder })
             </ul>
           </div>
 
-          {/* Operating Hours (Africa/Lagos) */}
+          {/* Operating Hours (Abuja / WAT) */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#BFE3B8] font-mono">
               Kitchen & Lounge Hours

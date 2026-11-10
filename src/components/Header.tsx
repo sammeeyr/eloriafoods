@@ -1,13 +1,12 @@
 import React from 'react';
-import { ShoppingBag, ShieldCheck, Search } from 'lucide-react';
+import { ShoppingBag, Search } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 interface HeaderProps {
-  onOpenAdmin: () => void;
   onOpenTrackOrder: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenAdmin, onOpenTrackOrder }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenTrackOrder }) => {
   const { totalItemsCount, subtotal, setIsCartOpen } = useCart();
 
   return (
@@ -58,15 +57,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAdmin, onOpenTrackOrder })
             className="flex lg:hidden items-center justify-center w-10 h-10 rounded-xl bg-white border border-[#EFE4BF] text-[#07552B] hover:text-[#F28C00]"
           >
             <Search className="w-4 h-4" />
-          </button>
-
-          <button
-            onClick={onOpenAdmin}
-            title="Restaurant Operations Portal"
-            className="hidden sm:flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-[#07552B] hover:text-[#F28C00] bg-white rounded-xl transition-colors whitespace-nowrap shrink-0 border border-[#EFE4BF] shadow-xs"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-[#58A846]" />
-            Staff
           </button>
 
           <button

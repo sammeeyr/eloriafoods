@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Truck, ArrowRight, Sparkles, Flame, ShoppingBag, Utensils } from 'lucide-react';
+import { Clock, Truck, ArrowRight, Flame, ShoppingBag, Utensils } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { INITIAL_PRODUCTS } from '../data/mockData';
 
@@ -11,7 +11,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onExploreMenu, onExploreBaskets, onOpenTrackOrder }) => {
   const { addItem } = useCart();
-  const [lagosTime, setLagosTime] = useState<string>('');
+  const [abujaTime, setAbujaTime] = useState<string>('');
 
   useEffect(() => {
     const updateTime = () => {
@@ -21,7 +21,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMenu, onExploreBaskets, onO
         minute: '2-digit',
         hour12: true,
       };
-      setLagosTime(new Intl.DateTimeFormat('en-GB', options).format(new Date()));
+      setAbujaTime(new Intl.DateTimeFormat('en-GB', options).format(new Date()));
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
@@ -56,7 +56,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMenu, onExploreBaskets, onO
           <div className="flex items-center gap-2 font-mono">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#EFE4BF] text-[#07552B] font-semibold shadow-xs">
               <span className="w-2 h-2 rounded-full bg-[#58A846] animate-pulse" />
-              Abuja Time: {lagosTime || '12:30 PM'} · Kitchen Active
+              Abuja Time: {abujaTime || '12:30 PM'} · Kitchen Active
             </span>
           </div>
           <div className="flex items-center gap-2 text-[#536353] font-medium">
@@ -68,7 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMenu, onExploreBaskets, onO
         {/* Hero Main Intro */}
         <div className="max-w-3xl mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#07552B]/10 text-[#07552B] text-xs font-bold tracking-wider uppercase mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-[#F28C00]" />
+            <Flame className="w-3.5 h-3.5 text-[#F28C00]" />
             <span>Taste More. Relax Better.</span>
           </div>
 
@@ -160,7 +160,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMenu, onExploreBaskets, onO
           <div className="relative overflow-hidden rounded-3xl bg-white border border-[#EFE4BF] p-6 sm:p-8 flex flex-col justify-between group shadow-md hover:shadow-xl transition-all">
             <div className="flex items-center justify-between mb-4">
               <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#07552B] bg-[#58A846]/10 px-3.5 py-1 rounded-full border border-[#58A846]/30">
-                <Sparkles className="w-3.5 h-3.5 text-[#58A846]" />
+                <ShoppingBag className="w-3.5 h-3.5 text-[#58A846]" />
                 PANTRY & FOODSTUFF MARKET
               </span>
               <span className="font-mono font-extrabold text-2xl text-[#07552B] tabular-nums">

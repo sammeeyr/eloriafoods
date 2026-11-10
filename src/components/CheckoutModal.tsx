@@ -38,10 +38,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   // Scheduling state
   const [timingType, setTimingType] = useState<'asap' | 'scheduled'>('asap');
 
-  // Today & future date helpers for Africa/Lagos
+  // Today & future date helpers for Abuja (WAT)
   const getTodayDateStr = () => {
-    const lagosOffsetMs = 1 * 60 * 60 * 1000;
-    const now = new Date(Date.now() + lagosOffsetMs);
+    const abujaOffsetMs = 1 * 60 * 60 * 1000;
+    const now = new Date(Date.now() + abujaOffsetMs);
     return now.toISOString().slice(0, 10);
   };
 
@@ -279,7 +279,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     <Calendar className="w-4 h-4 text-[#F28C00]" />
                     <span>Select Scheduled Date & Kitchen Slot</span>
                   </div>
-                  <span className="text-[10px] font-mono text-[#536353] font-semibold">Africa/Lagos (WAT)</span>
+                  <span className="text-[10px] font-mono text-[#536353] font-semibold">Abuja Time (WAT)</span>
                 </div>
 
                 {/* Quick Date Presets */}

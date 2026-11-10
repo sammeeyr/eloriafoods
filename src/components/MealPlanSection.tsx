@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Sparkles, ArrowRight } from 'lucide-react';
+import { Check, Calendar, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { INITIAL_PRODUCTS } from '../data/mockData';
 
@@ -31,7 +31,7 @@ export const MealPlanSection: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-white bg-[#58A846] px-3.5 py-1 rounded-full shadow-2xs mb-4">
-                <Sparkles className="w-3.5 h-3.5" />
+                <Calendar className="w-3.5 h-3.5" />
                 Office & Residence Lunch Plan
               </div>
 
