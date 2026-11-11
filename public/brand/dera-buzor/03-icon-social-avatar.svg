@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<title>Dera Buzor Lounge</title>
+<rect width="512" height="512" rx="92" fill="#07552B"/><g transform="translate(56 102) scale(1.58)">
+<path d="M28 93 C36 48 70 19 112 19 C154 19 188 48 196 93" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+<path d="M48 86 C61 54 84 37 112 37 C140 37 163 54 176 86" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+<circle cx="112" cy="12" r="9" fill="#FFFFFF"/>
+<path d="M14 119 C65 88 120 82 178 98 C205 106 228 119 249 136 C191 122 139 126 91 143 C56 155 30 172 4 193 C35 160 66 140 101 128 C153 109 204 115 239 131" fill="#F28C00"/>
+<path d="M78 154 C130 127 186 128 243 148 C203 141 166 147 133 161 C111 170 92 183 74 199 C102 175 132 161 164 155 C192 150 218 153 245 162" fill="#58A846"/>
+<path d="M180 52 C193 22 218 9 242 9 C237 34 216 57 186 65" fill="#58A846"/>
+</g>
+</svg>

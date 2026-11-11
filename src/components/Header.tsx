@@ -15,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenTrackOrder }) => {
         {/* Official Primary Logo for Light/Cream Surface */}
         <a href="#" className="flex items-center shrink-0 group py-1">
           <img
-            src="/assets/aistudio/01-primary-logo_acba5e67.svg"
+            src="/brand/dera-buzor/01-primary-horizontal.svg"
             alt="Dera Buzor Lounge - Taste More. Relax Better."
             className="h-11 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
           />
