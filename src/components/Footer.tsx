@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenTrackOrder }) => {
           <div className="md:col-span-1 space-y-4">
             <a href="#" className="inline-block">
               <img
-                src="/assets/aistudio/05-reversed-dark-logo_fc6acdcc.svg"
+                src="/brand/dera-buzor/05-reversed-dark-background.svg"
                 alt="Dera Buzor Lounge"
                 className="h-14 w-auto object-contain"
               />
