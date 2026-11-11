@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="235" viewBox="0 0 760 235">
+<title>Dera Buzor Lounge</title>
+<rect width="760" height="235" fill="#07552B"/><g transform="translate(0 0) scale(0.68)">
+<path d="M28 93 C36 48 70 19 112 19 C154 19 188 48 196 93" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+<path d="M48 86 C61 54 84 37 112 37 C140 37 163 54 176 86" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+<circle cx="112" cy="12" r="9" fill="#FFFFFF"/>
+<path d="M14 119 C65 88 120 82 178 98 C205 106 228 119 249 136 C191 122 139 126 91 143 C56 155 30 172 4 193 C35 160 66 140 101 128 C153 109 204 115 239 131" fill="#F28C00"/>
+<path d="M78 154 C130 127 186 128 243 148 C203 141 166 147 133 161 C111 170 92 183 74 199 C102 175 132 161 164 155 C192 150 218 153 245 162" fill="#58A846"/>
+<path d="M180 52 C193 22 218 9 242 9 C237 34 216 57 186 65" fill="#58A846"/>
+</g>
+<text x="190" y="105" font-family="Montserrat,Arial,sans-serif" font-size="69" font-weight="800" letter-spacing="-3" fill="#FFFFFF">Dera Buzor</text>
+<text x="197" y="157" font-family="Montserrat,Arial,sans-serif" font-size="31" font-weight="700" letter-spacing="12" fill="#FFFFFF">LOUNGE</text>
+<path d="M190 174 H330 M530 174 H700" stroke="#F28C00" stroke-width="5" stroke-linecap="round"/>
+<text x="190" y="216" font-family="Poppins,Arial,sans-serif" font-size="25" font-style="italic" font-weight="600" fill="#FFFFFF">Taste More. Relax Better.</text>
+</svg>
